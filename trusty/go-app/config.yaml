@@ -17,10 +17,10 @@ options:
     description: run-as user
   app_ssh_pub:
     type: string
-    default:
+    default: ""
     description: public deploy key
   app_ssh_priv:
     type: string
-    default:
+    default: ""
     description: private deploy key
 
