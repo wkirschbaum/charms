@@ -15,30 +15,6 @@ install_go() {
   juju-log "Installing go..."
   apt-get update
   apt-get -y install -qq golang
+  mkdir -p /home/${app_user}/go
 }
 [[ -x /usr/bin/go ]] || install_go
-
-install_app() {
-  juju-log "Installing ${app_name}..."
-  juju-log "Installing ${app_name}..."
-  mkdir -p /home/${app_user}/go
-  export GOPATH=/home/${app_user}/go
-  go get ${app_repo}
-  cat > /etc/init/${app_name}.conf <<EOS
-description "${app_name} go web server"
- 
-start on (net-device-up
-          and local-filesystems
-          and runlevel [2345])
-stop on runlevel [!2345]
- 
-expect fork
-respawn
- 
-script
-  export PORT=${app_port}
-  exec /home/${app_user}/go/bin/$(basename ${app_repo}) &
-end script
-EOS
-}
-[[ -x /home/${app_user}/go/bin/$(basename ${app_repo}) ]] || install_app

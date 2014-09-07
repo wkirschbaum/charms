@@ -1,4 +1,6 @@
 #!/bin/bash
-# Here put anything that is needed to start the service.
-# Note that currently this is run directly after install
-# i.e. 'service apache2 start'
+
+app_name=`config-get app_name`
+
+juju-log "starting app ${app_name}..."
+service ${app_name} restart || service ${app_name} start

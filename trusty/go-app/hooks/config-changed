@@ -1,2 +1,33 @@
 #!/bin/bash
-# config-changed occurs everytime a new configuration value is updated (juju set)
+
+set -eu # -x for verbose logging to juju debug-log
+
+umask 002
+
+app_name=`config-get app_name`
+app_user=`config-get app_user`
+app_repo=`config-get app_repo`
+app_port=`config-get app_port`
+
+install_app() {
+  juju-log "Installing ${app_name}..."
+  export GOPATH=/home/${app_user}/go
+  go get -u ${app_repo}
+  cat > /etc/init/${app_name}.conf <<EOS
+description "${app_name} go web server"
+ 
+start on (net-device-up
+          and local-filesystems
+          and runlevel [2345])
+stop on runlevel [!2345]
+ 
+expect fork
+respawn
+ 
+script
+  export PORT=${app_port}
+  exec /home/${app_user}/go/bin/$(basename ${app_repo}) &
+end script
+EOS
+}
+[[ -x /home/${app_user}/go/bin/$(basename ${app_repo}) ]] || install_app
