@@ -1,0 +1,9 @@
+name: go-app
+summary: "Deploy a go application"
+description: "Deploy a user-defined go application"
+categories:
+    - app-servers
+maintainer: Wilhelm Kirschbaum <wkirschbaum@gmail.com>
+provides:
+  website:
+    interface: http

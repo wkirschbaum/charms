@@ -1,0 +1,18 @@
+options:
+  app_name:
+    type: string
+    default: go-app
+    description: Application Name
+  app_port:
+    type: int
+    default: 3000
+    description: Port where the application will handle requests
+  app_repo:
+    type: string
+    default: "github.com/wkirschbaum/gohttphello"
+    description: Application repository URL
+  app_user:
+    type: string
+    default: ubuntu
+    description: run-as user
+
