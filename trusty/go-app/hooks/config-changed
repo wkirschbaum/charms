@@ -9,8 +9,8 @@ app_user=`config-get app_user`
 app_repo=`config-get app_repo`
 app_port=`config-get app_port`
 
-install_app() {
-  juju-log "Installing ${app_name}..."
+update_app() {
+  juju-log "Updating/Installing ${app_name}..."
   export GOPATH=/home/${app_user}/go
   go get -u ${app_repo}
   cat > /etc/init/${app_name}.conf <<EOS
@@ -30,4 +30,4 @@ script
 end script
 EOS
 }
-[[ -x /home/${app_user}/go/bin/$(basename ${app_repo}) ]] || install_app
+update_app
