@@ -20,9 +20,9 @@ install_go() {
 
 install_app() {
   juju-log "Installing ${app_name}..."
+  juju-log "Installing ${app_name}..."
   mkdir -p /home/${app_user}/go
   export GOPATH=/home/${app_user}/go
-  export PATH=$PATH:$GOPATH/bin
   go get ${app_repo}
   cat > /etc/init/${app_name}.conf <<EOS
 description "${app_name} go web server"
@@ -37,8 +37,8 @@ respawn
  
 script
   export PORT=${app_port}
-  exec gohttphello &
+  exec /home/${app_user}/go/bin/$(basename ${app_repo}) &
 end script
 EOS
 }
-[[ -d /home/${app_user}/go/${app_repo} ]] || install_app
+[[ -x /home/${app_user}/go/bin/$(basename ${app_repo}) ]] || install_app
