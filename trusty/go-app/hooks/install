@@ -22,8 +22,7 @@ install_app() {
   juju-log "Installing ${app_name}..."
   mkdir -p /home/${app_user}/go
   export GOPATH=/home/${app_user}/go
-  export GOROOT=/home/${app_user}/go
-  export PATH=$PATH:$GOROOT/bin
+  export PATH=$PATH:$GOPATH/bin
   go get ${app_repo}
   cat > /etc/init/${app_name}.conf <<EOS
 description "${app_name} go web server"
