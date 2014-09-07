@@ -15,4 +15,12 @@ options:
     type: string
     default: ubuntu
     description: run-as user
+  app_ssh_pub:
+    type: string
+    default:
+    description: public deploy key
+  app_ssh_priv:
+    type: string
+    default:
+    description: private deploy key
 

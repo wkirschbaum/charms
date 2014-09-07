@@ -8,6 +8,8 @@ app_name=`config-get app_name`
 app_user=`config-get app_user`
 app_repo=`config-get app_repo`
 app_port=`config-get app_port`
+app_ssh_priv=`config-get app_ssh_priv`
+app_ssh_pub=`config-get app_ssh_pub`
 
 apt-get -y install -qq git-core
 
@@ -16,5 +18,19 @@ install_go() {
   apt-get update
   apt-get -y install -qq golang
   mkdir -p /home/${app_user}/go
+  juju-log "success"
 }
+
+setup_ssh() {
+  juju-log "adding ssh keys..."
+  mkdir -p /home/${app_user}/.ssh
+  echo ${app_ssh_priv} > /home/${app_user}/.ssh/id_rsa
+  echo ${app_ssh_pub} > /home/${app_user}/.ssh/id_rsa.pub
+  chmod 700 /home/${app_user}/.ssh
+  chmod 600 /home/${app_user}/.ssh/id_rsa
+  chmod 644 /home/${app_user}/.ssh/id_rsa.pub
+  juju-log "success"
+}
+
 [[ -x /usr/bin/go ]] || install_go
+[[ -f  /home/${app_user}/.ssh/id_rsa.pub ]] || setup_ssh
