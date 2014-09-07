@@ -3,7 +3,4 @@
 app_name=`config-get app_name`
 
 juju-log "stopping app ${app_name}..."
-service ${app_name} status && service ${app_name} stop
-
-juju-log "removing init script for ${app_name}..."
-rm /etc/init/${app_name}.conf
+service ${app_name} stop
